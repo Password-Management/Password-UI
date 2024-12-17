@@ -1,0 +1,47 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:13-alpine
+    container_name: customerDatabase
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: customerManagment
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  server:
+    build:
+      dockerfile: demo-server/Dockerfile
+    container_name: server
+    environment:
+      - DSN=host=db user=postgres password=password dbname=customerManagment port=5432 sslmode=disable
+    ports:
+      - "8001:8001"
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      dockerfile: keypassUI/Dockerfile
+    container_name: frontend
+    ports:
+      - "5173:80"
+    stdin_open: true
+    tty: true
+    networks:
+      - app-network
+
+volumes:
+  db-data:
+
+networks:
+  app-network:
+    driver: bridge

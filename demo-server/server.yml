@@ -1,0 +1,112 @@
+openapi: 3.0.0
+info:
+  title: Customer Creation API
+  description: API's cerate customer in the database
+  version: 1.0.0
+  contact:
+    name: Vivek Sharma
+    email: sharmavivek1709@gmail.com
+
+tags:
+  - name: Customer
+    description: Operations related to Customer
+
+paths:
+  /customer:
+    post:
+      summary: Create a new custmer in the database
+      requestBody:
+        description: User login credentials
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                name:
+                  type: string
+                  format: email
+                plan:
+                  type: string
+                algorithm:
+                  type: string
+                platform:
+                  type: string
+              required:
+                - name
+                - email
+                - plan
+                - algorithm
+                - platform
+            example:
+              email: vivek@gmail.com
+              name: vviveksharma
+              plan: Pro Plan
+              algorithm: RSA
+              platform: Linux
+
+      tags:
+        - Customer
+      responses:
+        "200":
+          description: Successful registeration
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Customer added successfully with email user@example.com
+
+        "409":
+          description: CONFLICT (User already exists)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: User already exists
+
+  /get-results:
+    get:
+      summary: API to get counts of votes/ Winner of the election
+      parameters:
+        - name: masterId
+          in: query
+          required: true
+          schema:
+            type: string
+          description: The search keyword
+      tags:
+        - Customer
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  emai:
+                    type: string
+                    example: vivek@gmail.com
+                  name:
+                    type: string
+                    example: vviveksharma
+                  plan:
+                    type: string
+                    example: RSA
+                  algorithm:
+                    type: string
+                    example: RSA
+                  platform:
+                    type: string
+                    example: Linux
+                  master_id:
+                    type: string
+                    example: cd95d3a3-0ffb-4e24-9db9-4d5df3bb228d
