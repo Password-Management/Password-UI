@@ -14,7 +14,7 @@ type CustomerImpl struct{}
 
 type Customer interface {
 	Create(value *models.DbCustomer) error
-	FindByEmail(email string) (response *models.DbCustomer, err error)
+	FindBy(conditions *models.DbCustomer) (response *models.DbCustomer, err error)
 }
 
 func (cus *CustomerImpl) Create(value *models.DbCustomer) error {
@@ -40,7 +40,7 @@ func (cus *CustomerImpl) Create(value *models.DbCustomer) error {
 	return nil
 }
 
-func (cus *CustomerImpl) FindByEmail(email string) (response *models.DbCustomer, err error) {
+func (cus *CustomerImpl) FindBy(conditions *models.DbCustomer) (response *models.DbCustomer, err error) {
 	db, err := db.NewDbRequest()
 	if err != nil {
 		log.Println("error in creating a DB request")
@@ -55,9 +55,7 @@ func (cus *CustomerImpl) FindByEmail(email string) (response *models.DbCustomer,
 		return nil, transaction.Error
 	}
 	defer transaction.Rollback()
-	customerDetails := transaction.Find(&response, models.DbCustomer{
-		Email: email,
-	})
+	customerDetails := transaction.Find(&response, &conditions)
 	if customerDetails.Error != nil {
 		return nil, customerDetails.Error
 	}

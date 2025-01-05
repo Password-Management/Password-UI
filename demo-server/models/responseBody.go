@@ -45,4 +45,14 @@ type GetCustomerInformationResponseBody struct {
 	MasterId  string `json:"master_id"`
 	Algorithm string `json:"algorithm"`
 	Platform  string `json:"platform"`
+	UserId    string `json:"id"`
+}
+
+type AcceptContractResponseBody struct {
+	Message string `json:"message"`
+	LicenseId string `json:"license_id"`
+}
+
+type CheckLicenseResponseBody struct {
+	Email   string `json:"email"`
 }

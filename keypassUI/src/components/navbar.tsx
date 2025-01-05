@@ -6,21 +6,49 @@ import { useNavigate } from "react-router-dom";
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   let navigate = useNavigate();
-
-  const content = (
-    <>
-      <li>
-        <Link to={"/about"}>
-          <button className="hover:text-gray-500">About</button>
-        </Link>
-      </li>
-      <li>
-        <Link to={"/price"}>
-          <button className="hover:text-gray-500">Pricing</button>
-        </Link>
-      </li>
-    </>
-  );
+  let content;
+  const loginCheck = sessionStorage.getItem("customerLogin");
+  if (loginCheck !== null && loginCheck === "true") {
+    content = (
+      <>
+        <li>
+          <Link to={"/about"}>
+            <button className="hover:text-gray-500"><strong>About</strong></button>
+          </Link>
+        </li>
+        <li>
+          <Link to={"/price"}>
+            <button className="hover:text-gray-500"><strong>Pricing</strong></button>
+          </Link>
+        </li>
+        <li>
+          <Link to={"/customer"}>
+            <button className="hover:text-gray-500 "><strong>Customer</strong></button>
+          </Link>
+        </li>
+        <li>
+          <Link to={"/envCheck"}>
+            <button className="hover:text-gray-500"><strong>EnvCheck</strong></button>
+          </Link>
+        </li>
+      </>
+    );
+  } else {
+    content = (
+      <>
+        <li>
+          <Link to={"/about"}>
+            <button className="hover:text-gray-500"><strong>About</strong></button>
+          </Link>
+        </li>
+        <li>
+          <Link to={"/price"}>
+            <button className="hover:text-gray-500 "><strong>Pricing</strong></button>
+          </Link>
+        </li>
+      </>
+    );
+  }
 
   return (
     <header className="fixed top-0 left-0 right-0 w-full z-10 ">

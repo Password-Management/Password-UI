@@ -1,10 +1,12 @@
 import asset from "../assets/home.jpg";
-import React from "react";
+import React , {useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 
 const Home: React.FC = () => {
   let navigate = useNavigate();
-
+  useEffect (() => {
+    sessionStorage.clear();
+  })
   return (
     <>
       <section className="flex items-center justify-between min-h-screen px-6 md:px-12 lg:px-20">
@@ -37,6 +39,15 @@ const Home: React.FC = () => {
                 className="px-6 py-2 bg-[#074F94] hover:bg-[#0871C9] text-white rounded-lg min-w-[200px]"
               >
                 Buy Now
+              </button>
+
+              <button
+                onClick={() => {
+                  navigate("/customer");
+                }}
+                className="px-6 py-2 bg-[#074F94] hover:bg-[#0871C9] text-white rounded-lg min-w-[200px]"
+              >
+                Customer Portal
               </button>
             </div>
           </div>

@@ -1,21 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { FaCheck } from "react-icons/fa";
+import { AddCustomer } from "../services/customer";
+import { useNavigate } from "react-router-dom";
 
 const Request: React.FC = () => {
+  let navigate = useNavigate();
   let location = useLocation();
   const [type, setType] = useState<string>("");
   const [env, setEnv] = useState<string>("");
   const [formData, setFormData] = useState({
     email: "",
     username: "",
-    algorithm: "",
+    algorithm: "RSA",
   });
   const [showDropdown, setShowDropdown] = useState(false);
   const [showEnvDropDown, setShowEnvDropDown] = useState(false);
 
   let options = ["Demo Product", "Basic Plan", "Pro Plan", "Premium Plan"];
-  let envoptions = ["Linux", "SAAS"];
+  let envoptions = ["Linux", "SAAS", "MacOS"];
 
   useEffect(() => {
     if (!location.state) {
@@ -53,6 +56,17 @@ const Request: React.FC = () => {
   const handlerSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("The form data = ", formData);
+    const response = await AddCustomer(
+      formData.email,
+      formData.username,
+      formData.algorithm,
+      type,
+      env
+    );
+    if (response.status === "SUCCESS") {
+      navigate("/success");
+      localStorage.setItem("email", formData.email)
+    }
   };
 
   return (
@@ -161,7 +175,9 @@ const Request: React.FC = () => {
                       : "bg-gray-300 cursor-not-allowed"
                   }`}
                 >
-                  Request a demo
+                  {type === "Demo Product"
+                    ? "Request a Demo"
+                    : "Request Product"}
                 </button>
               </div>
             </form>

@@ -5,6 +5,7 @@
     { "path": "./tsconfig.node.json" }
   ],
   "compilerOptions": {
-    "resolveJsonModule": true
+    "jsx": "react-jsx",
+    "strict": true,
   }
 }
